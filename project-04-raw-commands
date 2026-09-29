@@ -1,0 +1,40 @@
+g_rayford2121@cloudshell:~ (610972308695)$ gcloud services enable ://googleapis.com ://googleapis.com --project=$MY_PROJ
+ERROR: (gcloud.services.enable) [g.rayford2121@gmail.com] does not have permission to access projects instance [project-c1a05de0-ba4b-4764-93a] (or it may not exist): Not found or permission denied for service(s): ://googleapis.com.
+Help Token: Ad9DraBCMqp9Y9TP7CQPdzgHlTbWFcMzGUoUUqi10JGBIycSbFL-Q_sjF5f69mPuYBzyoE28yOxJVOT797TQRPj_mhIUlvZVNw3LKi5royMIIf75. This command is authenticated as g.rayford2121@gmail.com which is the active account specified by the [core/account] property
+- '@type': type.googleapis.com/google.rpc.PreconditionFailure
+  violations:
+  - subject: ?error_code=220002&services=://googleapis.com
+    type: googleapis.com
+- '@type': type.googleapis.com/google.rpc.ErrorInfo
+  domain: serviceusage.googleapis.com
+  metadata:
+    services: ://googleapis.com
+  reason: SERVICE_CONFIG_NOT_FOUND_OR_PERMISSION_DENIED
+g_rayford2121@cloudshell:~ (610972308695)$ export MY_PROJ="project-c1a05de0-ba4b-4764-93a"
+g_rayford2121@cloudshell:~ (610972308695)$ gcloud services enable container.googleapis.com bigquery.googleapis.com --project=$MY_PROJ
+Operation "operations/acf.p2-610972308695-65dfc339-b1bb-4d4b-8882-7811a8a40324" finished successfully.
+g_rayford2121@cloudshell:~ (610972308695)$ gcloud container clusters create ace-compute-cluster --region=us-central1 --node-locations=us-central1-a,us-central1-b --num-nodes=1 --machine-type=e2-micro --network=secure-isolated-vpc --subnet=secure-subnet --project=$MY_PROJ
+ERROR: (gcloud.container.clusters.create) unrecognized arguments: --subnet=secure-subnet (did you mean '--subnetwork'?) 
+
+To search the help text of gcloud commands, run:
+  gcloud help -- SEARCH_TERMS
+g_rayford2121@cloudshell:~ (610972308695)$ gcloud container clusters create ace-compute-cluster --region=us-central1 --node-locations=us-central1-a,us-central1-b --num-nodes=1 --machine-type=e2-micro --network=secure-isolated-vpc --subnetwork=secure-subnet --project=$MY_PROJ
+Note: Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s).
+Creating cluster ace-compute-cluster in us-central1... Cluster is being health-checked (Kubernetes Control Plane is healthy)...done.                                                 
+Created [https://container.googleapis.com/v1/projects/project-c1a05de0-ba4b-4764-93a/zones/us-central1/clusters/ace-compute-cluster].
+To inspect the contents of your cluster, go to: https://console.cloud.google.com/kubernetes/workload_/gcloud/us-central1/ace-compute-cluster?project=project-c1a05de0-ba4b-4764-93a
+kubeconfig entry generated for ace-compute-cluster.
+NAME: ace-compute-cluster
+LOCATION: us-central1
+MASTER_VERSION: 1.35.8-gke.1225000
+MASTER_IP: 34.45.72.221
+MACHINE_TYPE: e2-micro
+NODE_VERSION: 1.35.8-gke.1225000
+NUM_NODES: 2
+STATUS: RUNNING
+STACK_TYPE: IPV4
+g_rayford2121@cloudshell:~ (610972308695)$ bq mk --location=us-central1 --project_id=$MY_PROJ enterprise_analytics_logs
+Dataset 'project-c1a05de0-ba4b-4764-93a:enterprise_analytics_logs' successfully created.
+g_rayford2121@cloudshell:~ (610972308695)$ bq mk --table --project_id=$MY_PROJ enterprise_analytics_logs.security_events event_id:STRING,event_timestamp:TIMESTAMP,source_ip:STRING,severity:STRING
+Table 'project-c1a05de0-ba4b-4764-93a:enterprise_analytics_logs.security_events' successfully created.
+g_rayford2121@cloudshell:~ (610972308695)$ 
