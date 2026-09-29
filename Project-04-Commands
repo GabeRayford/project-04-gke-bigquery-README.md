@@ -1,0 +1,31 @@
+# Project #4: Container Orchestration & Serverless Analytics Data Platform
+
+## 📋 Real-World Operational Scenario
+* **The Business Challenge:** The microservice infrastructure team is preparing to launch a critical web application that requires automated scaling behaviors and high availability capable of surviving physical data center outages. Simultaneously, data auditing guidelines mandate that every internal security exception event must be captured instantly and written to a serverless analytical database table for fast SQL audit queries.
+* **The Technical Resolution:** Deployed a highly available Google Kubernetes Engine (GKE) cluster distributed across multiple hardware zones (`us-central1-a` and `us-central1-b`) utilizing efficient machine profiles. Configured a serverless BigQuery log collection dataset and enforced a strict structured string/timestamp data schema to ingest telemetry.
+
+## ⚡ Flattened One-Liner Execution Commands
+
+```bash
+# 1. Establish project environment target
+export MY_PROJ="project-c1a05de0-ba4b-4764-93a"
+
+# 2. Enable the regional container engine and analytical database APIs
+gcloud services enable ://googleapis.com ://googleapis.com --project=\$MY_PROJ
+
+# 3. Deploy the multi-zone GKE cluster inside your custom network foundation
+gcloud container clusters create ace-compute-cluster --region=us-central1 --node-locations=us-central1-a,us-central1-b --num-nodes=1 --machine-type=e2-micro --network=secure-isolated-vpc --subnetwork=secure-subnet --project=\$MY_PROJ
+
+# 4. Construct the regional serverless BigQuery data repository
+bq mk --location=us-central1 --project_id=\$MY_PROJ enterprise_analytics_logs
+
+# 5. Initialize the structured schema table configuration for data capture
+bq mk --table --project_id=\$MY_PROJ enterprise_analytics_logs.security_events event_id:STRING,event_timestamp:TIMESTAMP,source_ip:STRING,severity:STRING
+```
+
+## 🔍 Validation Protocol
+Run these commands to confirm successful infrastructure allocation:
+```bash
+gcloud container clusters list --project=\$MY_PROJ
+bq ls --project_id=\$MY_PROJ enterprise_analytics_logs
+```
